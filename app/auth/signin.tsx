@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks";
 import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
-export default function Page() {
+export default function SignIn() {
     const router = useRouter();
     const { login, logout, authData } = useAuth(false);
 
@@ -26,9 +26,15 @@ export default function Page() {
 
     return (
         <View>
-            {authData ? <Text>Already signed in.</Text> : <Text>Signing you in.</Text>}
-            <Button title="Login" onPress={triggerLogin} />
-            <Button title="Logout" onPress={logout} />
+            {authData ? (
+                <Text>Redirecting...</Text>
+            ) : (
+                <>
+                    <Text>Sign in.</Text>
+                    <Button title="Login" onPress={triggerLogin} />
+                    <Button title="Logout" onPress={logout} />
+                </>
+            )}
         </View>
     );
 }

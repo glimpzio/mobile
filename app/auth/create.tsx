@@ -1,8 +1,8 @@
 import { Button, Text, View } from "react-native";
 import { useAuth } from "../../hooks";
 
-export default function Page() {
-    const { logout } = useAuth(true);
+export default function Create() {
+    useAuth(true);
 
     return (
         <View>
