@@ -5,9 +5,16 @@ import * as WebBrowser from "expo-web-browser";
 import { useContext, useEffect } from "react";
 import { AuthData, authContext } from "./authProvider";
 import { Platform } from "react-native";
-import { jwtDecode } from "jwt-decode";
+import { Buffer } from "buffer";
+import { useRouter } from "expo-router";
 
 const KEY = "KEY_AUTH_TOKEN";
+
+function jwtDecode(token: string) {
+    const parts = token.split(".").map((part) => Buffer.from(part.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString());
+
+    return JSON.parse(parts[1]);
+}
 
 function generateNonce() {
     var charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz+/";
@@ -33,10 +40,8 @@ function generateNonce() {
 }
 
 function parseResultUrl(url: string) {
-    const resultUrl = new URL(url);
-
-    const params = resultUrl.hash
-        .slice(1)
+    const params = url
+        .split("#")[1]
         .split("&")
         .map((param) => param.split("="));
 
@@ -50,19 +55,26 @@ function findParam(param: string, params: string[][]) {
     return out[0][1];
 }
 
-export function useAuth() {
+export function useAuth(protect: boolean) {
     const arr = useContext(authContext);
     if (!arr) throw Error("missing auth context provider");
 
     const [authData, setAuthData] = arr;
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (protect && authData === null) router.push("/auth/signin");
+    }, [router, authData, protect]);
 
     useEffect(() => {
         if (Platform.OS === "web") {
             const rawField = localStorage.getItem(KEY);
             if (rawField) setAuthData(JSON.parse(rawField));
         } else {
-            const rawField = SecureStore.getItem(KEY);
-            if (rawField) setAuthData(JSON.parse(rawField));
+            SecureStore.getItemAsync(KEY).then((item) => {
+                if (item) setAuthData(JSON.parse(item));
+            });
         }
     }, [setAuthData]);
 
@@ -81,11 +93,12 @@ export function useAuth() {
         if (!result.url) return false;
 
         const params = parseResultUrl(result.url);
+
         const expiresIn = findParam("expires_in", params);
         const accessToken = findParam("access_token", params);
         const idToken = findParam("id_token", params);
 
-        const idTokenDecoded: any = jwtDecode(idToken);
+        const idTokenDecoded = jwtDecode(idToken);
 
         const data: AuthData = {
             accessToken: accessToken,
@@ -99,7 +112,7 @@ export function useAuth() {
         const dataString = JSON.stringify(data);
 
         if (Platform.OS === "web") localStorage.setItem(KEY, dataString);
-        else SecureStore.setItem(KEY, dataString);
+        else SecureStore.setItemAsync(KEY, dataString);
 
         return true;
     }
