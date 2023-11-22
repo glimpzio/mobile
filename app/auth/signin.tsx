@@ -1,10 +1,8 @@
 import { Button, Text, View } from "react-native";
 import { useAuth } from "../../hooks";
-import { useEffect } from "react";
-import { useRouter } from "expo-router";
+import { Redirect } from "expo-router";
 
 export default function SignIn() {
-    const router = useRouter();
     const { login, logout, authData } = useAuth(false);
 
     const triggerLogin = async () => {
@@ -20,14 +18,10 @@ export default function SignIn() {
         await login(appUri, webUri, auth0Domain, auth0ClientId, auth0Audience);
     };
 
-    useEffect(() => {
-        if (authData) router.push("/");
-    }, [authData, router]);
-
     return (
         <View>
             {authData ? (
-                <Text>Redirecting...</Text>
+                <Redirect href="/" />
             ) : (
                 <>
                     <Text>Sign in.</Text>

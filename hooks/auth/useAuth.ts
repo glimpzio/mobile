@@ -124,11 +124,12 @@ export function useAuth(protect: boolean) {
 
         if (Platform.OS === "web") localStorage.removeItem(KEY);
         else SecureStore.deleteItemAsync(KEY);
+
+        router.push("/auth/signin");
     }
 
     function completeAuth() {
-        const out = WebBrowser.maybeCompleteAuthSession();
-        console.log(out);
+        WebBrowser.maybeCompleteAuthSession();
     }
 
     return { login, logout, completeAuth, authData };
