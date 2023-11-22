@@ -1,20 +1,16 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import { useAuth } from "../hooks";
+import { Link } from "expo-router";
 
 export default function Page() {
-    const { authData, login, logout } = useAuth(true);
+    // useAuth(true);
 
     return (
-        <View style={styles.container}>
+        <View>
             <Text>Hello world</Text>
+            <Link href="/tabs/test" asChild>
+                <Button title="Connect" />
+            </Link>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-});

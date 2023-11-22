@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import * as ExpoCrypto from "expo-crypto";
 import * as WebBrowser from "expo-web-browser";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { AuthData, authContext } from "./authProvider";
 import { Platform } from "react-native";
 import { Buffer } from "buffer";
@@ -71,9 +71,11 @@ export function useAuth(protect: boolean) {
         if (Platform.OS === "web") {
             const rawField = localStorage.getItem(KEY);
             if (rawField) setAuthData(JSON.parse(rawField));
+            else setAuthData(null);
         } else {
             SecureStore.getItemAsync(KEY).then((item) => {
                 if (item) setAuthData(JSON.parse(item));
+                else setAuthData(null);
             });
         }
     }, [setAuthData]);
