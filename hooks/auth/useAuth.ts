@@ -2,7 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import * as ExpoCrypto from "expo-crypto";
 import * as WebBrowser from "expo-web-browser";
 
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { AuthData, authContext } from "./authProvider";
 import { Platform } from "react-native";
 import { Buffer } from "buffer";
@@ -126,5 +126,10 @@ export function useAuth(protect: boolean) {
         else SecureStore.deleteItemAsync(KEY);
     }
 
-    return { login, logout, authData };
+    function completeAuth() {
+        const out = WebBrowser.maybeCompleteAuthSession();
+        console.log(out);
+    }
+
+    return { login, logout, completeAuth, authData };
 }

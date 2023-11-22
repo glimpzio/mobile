@@ -23,15 +23,15 @@ export default function Layout() {
     });
 
     return (
-        <ApolloProvider client={client}>
-            <AuthProvider>
+        <AuthProvider>
+            <ApolloProvider client={client}>
                 <Stack>
                     <Stack.Screen name="index" options={{ title: "Home" }} />
                     <Stack.Screen name="auth/signin" options={{ title: "Sign In", presentation: "modal" }} />
                     <Stack.Screen name="auth/create" options={{ title: "Create Profile", presentation: "modal" }} />
                     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 </Stack>
-            </AuthProvider>
-        </ApolloProvider>
+            </ApolloProvider>
+        </AuthProvider>
     );
 }
