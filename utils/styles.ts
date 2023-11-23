@@ -2,6 +2,7 @@ export const PADDING = 12;
 
 // Colors
 export const COLOR_SKY_500 = "#0ea5e9";
+export const COLOR_SKY_600 = "#0284c7";
 
 export const COLOR_ZINC_50 = "#fafafa";
 export const COLOR_ZINC_100 = "#f4f4f5";

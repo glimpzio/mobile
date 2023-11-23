@@ -8,6 +8,8 @@ import { COLOR_WHITE, COLOR_ZINC_900 } from "../../utils";
 export default function TabLayout() {
     const { authData, logout } = useAuth(true);
 
+    if (!authData) return null;
+
     const graphqlApiUrl = process.env.EXPO_PUBLIC_API_URL;
     if (!graphqlApiUrl) throw Error("missing graphql api url");
 
@@ -19,7 +21,7 @@ export default function TabLayout() {
         return {
             headers: {
                 ...headers,
-                authorization: `Bearer ${authData ? authData.accessToken : ""}`,
+                authorization: `Bearer ${authData.accessToken}`,
             },
         };
     });
@@ -31,7 +33,7 @@ export default function TabLayout() {
 
     return (
         <ApolloProvider client={client}>
-            <Tabs screenOptions={{ headerStyle: styles.header, headerTitleStyle: styles.title, tabBarStyle: styles.tabBar }}>
+            <Tabs screenOptions={{ headerStyle: styles.header, headerTitleStyle: styles.title, headerTintColor: styles.title.color, tabBarStyle: styles.tabBar }}>
                 <Tabs.Screen name="connect" options={{ headerTitle: "Connect", tabBarLabel: "Connect" }} />
                 <Tabs.Screen name="connections" options={{ headerTitle: "Connections", tabBarLabel: "Connections" }} />
                 <Tabs.Screen name="profile" options={{ headerTitle: "Profile", tabBarLabel: "Profile", headerRight: () => <Button title="Logout" onPress={logout} /> }} />

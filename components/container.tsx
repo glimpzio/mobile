@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { PADDING } from "../utils";
 
 interface Props {
-    direction: "vertical-start" | "vertical-center" | "horizontal-center" | "none";
+    direction: "vertical-start" | "vertical-center" | "vertical-end" | "horizontal-center" | "none";
     scroll?: boolean;
     expand?: boolean;
     pad?: boolean;
@@ -19,6 +19,7 @@ export function Container(props: ContainerProps) {
 
     if (direction === "vertical-start") directionStyle = styles.directionVerticalStart;
     else if (direction === "vertical-center") directionStyle = styles.directionVerticalCenter;
+    else if (direction === "vertical-end") directionStyle = styles.directionVerticalEnd;
     else if (direction === "horizontal-center") directionStyle = styles.directionHorizontalCenter;
     else if (direction === "none") directionStyle = styles.directionNone;
 
@@ -53,6 +54,12 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         justifyContent: "center",
     },
+    directionVerticalEnd: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "flex-end",
+    },
     directionHorizontalCenter: {
         display: "flex",
         flexDirection: "row",
@@ -60,6 +67,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     directionNone: {
-        margin: PADDING,
+        margin: PADDING / 2,
     },
 });
