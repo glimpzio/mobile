@@ -3,7 +3,8 @@ import { useAuth } from "../../hooks";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { StyleSheet } from "react-native";
-import { COLOR_WHITE, COLOR_ZINC_900 } from "../../utils";
+import { COLOR_SKY_500, COLOR_WHITE, COLOR_ZINC_800, COLOR_ZINC_900, PADDING_HALF } from "../../utils";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabLayout() {
     const { authData } = useAuth(true);
@@ -33,23 +34,25 @@ export default function TabLayout() {
 
     return (
         <ApolloProvider client={client}>
-            <Tabs screenOptions={{ headerStyle: styles.header, headerTitleStyle: styles.title, headerTintColor: styles.title.color, tabBarStyle: styles.tabBar }}>
-                <Tabs.Screen name="connect" options={{ headerTitle: "Connect", tabBarLabel: "Connect" }} />
-                <Tabs.Screen name="connections" options={{ headerTitle: "Connections", tabBarLabel: "Connections" }} />
-                <Tabs.Screen name="profile" options={{ headerTitle: "Profile", tabBarLabel: "Profile" }} />
+            <Tabs screenOptions={{ headerShown: false, tabBarStyle: styles.tabBar, tabBarInactiveTintColor: styles.tabBarTintInactive.color, tabBarActiveTintColor: styles.tabBarTintActive.color }}>
+                <Tabs.Screen name="connect" options={{ tabBarLabel: "Connect", tabBarIcon: ({ color, size }) => <Ionicons name="link" size={size} color={color} /> }} />
+                <Tabs.Screen name="connections" options={{ tabBarLabel: "Connections", tabBarIcon: ({ color, size }) => <Ionicons name="list" size={size} color={color} /> }} />
+                <Tabs.Screen name="profile" options={{ tabBarLabel: "Profile", tabBarIcon: ({ color, size }) => <Ionicons name="headset" size={size} color={color} /> }} />
             </Tabs>
         </ApolloProvider>
     );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        backgroundColor: COLOR_ZINC_900,
-    },
     tabBar: {
         backgroundColor: COLOR_ZINC_900,
+        borderTopColor: COLOR_ZINC_800,
+        paddingBottom: PADDING_HALF,
     },
-    title: {
+    tabBarTintInactive: {
         color: COLOR_WHITE,
+    },
+    tabBarTintActive: {
+        color: COLOR_SKY_500,
     },
 });

@@ -2,6 +2,7 @@ import { useAuth } from "../../hooks";
 import { Redirect } from "expo-router";
 import { Container, Button, Text } from "../../components";
 import { COLOR_ZINC_950 } from "../../utils";
+import { StyleSheet } from "react-native";
 
 export default function SignIn() {
     const { login, authData } = useAuth(false);
@@ -22,7 +23,7 @@ export default function SignIn() {
     if (authData) return <Redirect href="/" />;
 
     return (
-        <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+        <Container direction="vertical-center" pad expand style={styles.background}>
             <Container direction="vertical-end" expand>
                 <Container direction="none">
                     <Text alignment="center" type="xl">
@@ -61,3 +62,9 @@ export default function SignIn() {
         </Container>
     );
 }
+
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: COLOR_ZINC_950,
+    },
+});

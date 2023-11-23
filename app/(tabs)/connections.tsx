@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import * as ClipBoard from "expo-clipboard";
 import { Button, Container, FlatList, Text } from "../../components";
@@ -75,3 +75,9 @@ export default function Connections() {
         />
     );
 }
+
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: COLOR_ZINC_950,
+    },
+});

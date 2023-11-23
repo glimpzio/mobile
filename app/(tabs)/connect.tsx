@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { Platform } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useCache } from "../../hooks/useCache";
 import { useEffect, useState } from "react";
@@ -52,7 +52,7 @@ export default function Connect() {
 
     if (!profileUrl || !invite)
         return (
-            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+            <Container direction="vertical-center" pad expand style={styles.background}>
                 <Text alignment="center" type="normal">
                     Missing profile URL.
                 </Text>
@@ -60,7 +60,7 @@ export default function Connect() {
         );
 
     return (
-        <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }} scroll>
+        <Container direction="vertical-center" pad expand style={styles.background} scroll>
             <Container
                 direction="horizontal-center"
                 pad
@@ -69,7 +69,7 @@ export default function Connect() {
                     setContainerSize({ width, height });
                 }}
             >
-                <QRCode value={profileUrl} backgroundColor={COLOR_ZINC_950} color={COLOR_NEUTRAL_300} size={Math.max(containerSize.width, containerSize.height) * 0.9} />
+                <QRCode value={profileUrl} backgroundColor={styles.background.backgroundColor} color={COLOR_NEUTRAL_300} size={Math.max(containerSize.width, containerSize.height) * 0.9} />
             </Container>
             <Container direction="horizontal-center" pad>
                 <Text alignment="center" type="lg">
@@ -94,3 +94,9 @@ export default function Connect() {
         </Container>
     );
 }
+
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: COLOR_ZINC_950,
+    },
+});

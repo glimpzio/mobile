@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Container, Text } from "../../components";
 import { COLOR_ZINC_950 } from "../../utils";
+import { StyleSheet } from "react-native";
 
 interface Data {
     user: {
@@ -106,3 +107,9 @@ export default function Profile() {
         </Container>
     );
 }
+
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: COLOR_ZINC_950,
+    },
+});

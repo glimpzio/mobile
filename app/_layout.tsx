@@ -17,21 +17,12 @@ export default function Layout() {
 
     return (
         <AuthProvider>
-            <Stack screenOptions={{ headerStyle: styles.header, headerTitleStyle: styles.title, headerTintColor: styles.title.color }}>
-                <Stack.Screen name="index" options={{ title: "Home" }} />
-                <Stack.Screen name="auth/signin" options={{ title: "Sign In", presentation: "modal" }} />
-                <Stack.Screen name="auth/create" options={{ title: "Create Profile", presentation: "modal" }} />
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="auth/signin" options={{ presentation: "modal" }} />
+                <Stack.Screen name="auth/create" options={{ presentation: "modal" }} />
+                <Stack.Screen name="(tabs)" />
             </Stack>
         </AuthProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: COLOR_ZINC_900,
-    },
-    title: {
-        color: COLOR_WHITE,
-    },
-});

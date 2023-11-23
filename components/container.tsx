@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import { PADDING } from "../utils";
+import { PADDING_FULL, PADDING_HALF } from "../utils";
 
 interface Props {
     direction: "vertical-start" | "vertical-center" | "vertical-end" | "horizontal-center" | "none";
@@ -36,7 +36,7 @@ export function Container(props: ContainerProps) {
 const styles = StyleSheet.create({
     padNo: {},
     padYes: {
-        padding: PADDING,
+        padding: PADDING_FULL,
     },
     expandNo: {},
     expandYes: {
@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     directionNone: {
-        margin: PADDING / 2,
+        margin: PADDING_HALF,
     },
 });

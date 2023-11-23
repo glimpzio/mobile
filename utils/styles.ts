@@ -1,4 +1,5 @@
-export const PADDING = 12;
+export const PADDING_FULL = 12;
+export const PADDING_HALF = 6;
 
 // Colors
 export const COLOR_SKY_500 = "#0ea5e9";
