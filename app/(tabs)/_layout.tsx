@@ -2,9 +2,10 @@ import { Tabs } from "expo-router";
 import { useAuth } from "../../hooks";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { Button } from "react-native";
 
 export default function TabLayout() {
-    const { authData } = useAuth(true);
+    const { authData, logout } = useAuth(true);
 
     const graphqlApiUrl = process.env.EXPO_PUBLIC_API_URL;
     if (!graphqlApiUrl) throw Error("missing graphql api url");
@@ -32,7 +33,7 @@ export default function TabLayout() {
             <Tabs>
                 <Tabs.Screen name="connect" options={{ headerTitle: "Connect", tabBarLabel: "Connect" }} />
                 <Tabs.Screen name="connections" options={{ headerTitle: "My Connections", tabBarLabel: "Connections" }} />
-                <Tabs.Screen name="profile" options={{ headerTitle: "My Profile", tabBarLabel: "Profile" }} />
+                <Tabs.Screen name="profile" options={{ headerTitle: "My Profile", tabBarLabel: "Profile", headerRight: () => <Button title="Logout" onPress={logout} /> }} />
             </Tabs>
         </ApolloProvider>
     );
