@@ -51,7 +51,7 @@ export default function Connections() {
             data={data!.emailConnections}
             renderItem={({ item }) => (
                 <Container direction="none" pad style={{ backgroundColor: COLOR_ZINC_900 }}>
-                    <Container direction="none">
+                    <Container direction="none" pad>
                         <Text alignment="center" type="normal">
                             {item.email}
                         </Text>
