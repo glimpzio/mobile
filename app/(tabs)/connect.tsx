@@ -24,7 +24,7 @@ export default function Connect() {
     const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
     if (!baseUrl) throw Error("missing base url");
 
-    const profileUrl = invite ? `${baseUrl}/profile/${invite}` : null;
+    const profileUrl = invite ? `${baseUrl}/profile/${invite.createInvite.id}` : null;
 
     const CREATE_INVITE = gql`
         mutation CreateInvite {
