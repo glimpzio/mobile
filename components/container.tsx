@@ -1,53 +1,63 @@
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { PADDING } from "../utils";
 
 interface Props {
-    direction: "vertical-start" | "vertical-center" | "horizontal-start" | "horizontal-center" | "none";
+    direction: "vertical-start" | "vertical-center" | "horizontal-center" | "none";
+    scroll?: boolean;
+    expand?: boolean;
     pad?: boolean;
 }
 
 export type ContainerProps = Props & View["props"];
 
 export function Container(props: ContainerProps) {
-    const { style, direction, pad = false, ...otherProps } = props;
+    const { style, direction, pad = false, expand = false, scroll = false, ...otherProps } = props;
 
     let directionStyle: any;
-    let padStyle: any = {};
+    let padStyle: any;
+    let expandStyle: any;
 
     if (direction === "vertical-start") directionStyle = styles.directionVerticalStart;
     else if (direction === "vertical-center") directionStyle = styles.directionVerticalCenter;
-    else if (direction === "horizontal-start") directionStyle = styles.directionHorizontalStart;
     else if (direction === "horizontal-center") directionStyle = styles.directionHorizontalCenter;
     else if (direction === "none") directionStyle = styles.directionNone;
 
-    if (pad) padStyle = styles.pad;
+    if (pad) padStyle = styles.padYes;
+    else padStyle = styles.padNo;
 
-    return <View style={[directionStyle, padStyle, style]} {...otherProps} />;
+    if (expand) expandStyle = styles.expandYes;
+    else expandStyle = styles.expandNo;
+
+    if (scroll) return <ScrollView contentContainerStyle={[directionStyle, padStyle, expandStyle, style]} {...otherProps} />;
+    return <View style={[directionStyle, padStyle, expandStyle, style]} {...otherProps} />;
 }
 
 const styles = StyleSheet.create({
-    pad: {
+    padNo: {},
+    padYes: {
         padding: PADDING,
     },
+    expandNo: {},
+    expandYes: {
+        flexGrow: 1,
+    },
     directionVerticalStart: {
-        flex: 1,
+        display: "flex",
+        flexDirection: "column",
         alignItems: "stretch",
         justifyContent: "flex-start",
     },
     directionVerticalCenter: {
-        flex: 1,
-        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
         justifyContent: "center",
     },
-    directionHorizontalStart: {
+    directionHorizontalCenter: {
+        display: "flex",
         flexDirection: "row",
         alignItems: "stretch",
-        justifyContent: "flex-start",
-    },
-    directionHorizontalCenter: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
     },
     directionNone: {
         margin: PADDING,

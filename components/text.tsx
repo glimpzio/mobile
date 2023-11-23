@@ -28,22 +28,22 @@ export function Text(props: TextProps) {
 
 const styles = StyleSheet.create({
     typeSm: {
-        fontSize: 12,
+        fontSize: 14,
         color: COLOR_NEUTRAL_500,
         fontWeight: "500",
     },
     typeNormal: {
-        fontSize: 14,
+        fontSize: 16,
         color: COLOR_NEUTRAL_400,
         fontWeight: "500",
     },
     typeLg: {
-        fontSize: 16,
+        fontSize: 20,
         color: COLOR_NEUTRAL_300,
         fontWeight: "700",
     },
     typeXl: {
-        fontSize: 18,
+        fontSize: 24,
         color: COLOR_NEUTRAL_200,
         fontWeight: "700",
     },

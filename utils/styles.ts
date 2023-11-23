@@ -3,6 +3,15 @@ export const PADDING = 12;
 // Colors
 export const COLOR_SKY_500 = "#0ea5e9";
 
+export const COLOR_ZINC_50 = "#fafafa";
+export const COLOR_ZINC_100 = "#f4f4f5";
+export const COLOR_ZINC_200 = "#e4e4e7";
+export const COLOR_ZINC_300 = "#d4d4d8";
+export const COLOR_ZINC_400 = "#a1a1aa";
+export const COLOR_ZINC_500 = "#71717a";
+export const COLOR_ZINC_600 = "#52525b";
+export const COLOR_ZINC_700 = "#3f3f46";
+export const COLOR_ZINC_800 = "#27272a";
 export const COLOR_ZINC_900 = "#171717";
 export const COLOR_ZINC_950 = "#0a0a0a";
 

@@ -1,19 +1,25 @@
 import { gql, useMutation } from "@apollo/client";
-import { Button, Platform, Text, View } from "react-native";
+import { Platform } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useCache } from "../../hooks/useCache";
 import { useEffect, useState } from "react";
 import * as ClipBoard from "expo-clipboard";
+import { Button, Container, Text } from "../../components";
+import { COLOR_NEUTRAL_300, COLOR_ZINC_950 } from "../../utils";
 
 interface Data {
     createInvite: {
         id: string;
+        publicProfile: {
+            firstName: string;
+        };
     };
 }
 
 export default function Connect() {
     const { value, setValue } = useCache("connect-page");
-    const [invite, setInvite] = useState<string | null>(null);
+    const [invite, setInvite] = useState<Data | null>(null);
+    const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
     const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
     if (!baseUrl) throw Error("missing base url");
@@ -24,6 +30,9 @@ export default function Connect() {
         mutation CreateInvite {
             createInvite {
                 id
+                publicProfile {
+                    firstName
+                }
             }
         }
     `;
@@ -36,27 +45,52 @@ export default function Connect() {
             mutateFunction().then(({ data }) => {
                 if (!data) return;
 
-                const inviteId = data.createInvite.id;
-                setValue(inviteId);
+                setValue(JSON.stringify(data));
             });
-        } else setInvite(value);
+        } else setInvite(JSON.parse(value));
     }, [value]);
 
+    if (!profileUrl || !invite)
+        return (
+            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+                <Text alignment="center" type="normal">
+                    Missing profile URL.
+                </Text>
+            </Container>
+        );
+
     return (
-        <View>
-            {profileUrl && (
-                <>
-                    <QRCode value={profileUrl} />
-                    <Text>Code: {invite!}</Text>
-                    <Button
-                        title="Copy Link"
-                        onPress={async () => {
-                            if (Platform.OS === "web") navigator.clipboard.writeText(profileUrl);
-                            else await ClipBoard.setUrlAsync(profileUrl);
-                        }}
-                    />
-                </>
-            )}
-        </View>
+        <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }} scroll>
+            <Container
+                direction="horizontal-center"
+                pad
+                onLayout={(event) => {
+                    const { width, height } = event.nativeEvent.layout;
+                    setContainerSize({ width, height });
+                }}
+            >
+                <QRCode value={profileUrl} backgroundColor={COLOR_ZINC_950} color={COLOR_NEUTRAL_300} size={Math.max(containerSize.width, containerSize.height) * 0.9} />
+            </Container>
+            <Container direction="horizontal-center" pad>
+                <Text alignment="center" type="lg">
+                    {invite.createInvite.publicProfile.firstName}
+                </Text>
+            </Container>
+            <Container direction="horizontal-center" pad>
+                <Text alignment="center" type="normal">
+                    {invite.createInvite.id}
+                </Text>
+            </Container>
+            <Container direction="none">
+                <Button
+                    color="sky"
+                    title="Copy Invite Link"
+                    onPress={async () => {
+                        if (Platform.OS === "web") navigator.clipboard.writeText(profileUrl);
+                        else await ClipBoard.setUrlAsync(profileUrl);
+                    }}
+                />
+            </Container>
+        </Container>
     );
 }
