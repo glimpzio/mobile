@@ -1,6 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
-import { Button, Text, View } from "react-native";
-import { useAuth } from "../../hooks";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { Container, Text } from "../../components";
+import { COLOR_ZINC_950 } from "../../utils";
 
 interface Data {
     user: {
@@ -39,12 +39,70 @@ export default function Profile() {
         }
     `;
 
+    const UPDATE_PROFILE = gql`
+        mutation UpdateProfile(
+            $firstName: String!
+            $lastName: String!
+            $email: String!
+            $bio: String!
+            $profilePicture: String
+            $profileEmail: String
+            $profilePhone: String
+            $profileWebsite: String
+            $profileLinkedin: String
+        ) {
+            upsertUser(
+                input: {
+                    firstName: $firstName
+                    lastName: $lastName
+                    email: $email
+                    bio: $bio
+                    profilePicture: $profilePicture
+                    profile: { email: $profileEmail, phone: $profilePhone, website: $profileWebsite, linkedin: $profileLinkedin }
+                }
+            ) {
+                id
+                firstName
+                lastName
+                email
+                bio
+                profilePicture
+                profile {
+                    email
+                    phone
+                    website
+                    linkedin
+                }
+            }
+        }
+    `;
+
     const { loading, error, data } = useQuery<Data>(GET_PROFILE);
+    const [mutateFunction] = useMutation<Data>(UPDATE_PROFILE);
+
+    if (loading)
+        return (
+            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+                <Text alignment="center" type="normal">
+                    Loading...
+                </Text>
+            </Container>
+        );
+
+    if (error)
+        return (
+            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+                <Text alignment="center" type="normal">
+                    Failed to fetch data.
+                </Text>
+            </Container>
+        );
 
     return (
-        <View>
-            <Text>Profile</Text>
-            <Text>{JSON.stringify(data)}</Text>
-        </View>
+        <Container direction="vertical-start" scroll pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
+            <Text type="normal" alignment="center">
+                {JSON.stringify(data)}
+            </Text>
+        </Container>
     );
 }
