@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import { useAuth } from "../../hooks";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { Button } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
 export default function TabLayout() {
     const { authData, logout } = useAuth(true);
@@ -30,7 +30,7 @@ export default function TabLayout() {
 
     return (
         <ApolloProvider client={client}>
-            <Tabs>
+            <Tabs screenOptions={{ headerStyle: styles.header, headerTitleStyle: styles.title, tabBarStyle: styles.tabBar }}>
                 <Tabs.Screen name="connect" options={{ headerTitle: "Connect", tabBarLabel: "Connect" }} />
                 <Tabs.Screen name="connections" options={{ headerTitle: "My Connections", tabBarLabel: "Connections" }} />
                 <Tabs.Screen name="profile" options={{ headerTitle: "My Profile", tabBarLabel: "Profile", headerRight: () => <Button title="Logout" onPress={logout} /> }} />
@@ -38,3 +38,16 @@ export default function TabLayout() {
         </ApolloProvider>
     );
 }
+
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: "#18181b",
+    },
+    tabBar: {
+        backgroundColor: "#18181b",
+    },
+    title: {
+        color: "#e5e5e5",
+        fontWeight: "700",
+    },
+});

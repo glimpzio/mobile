@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { AuthProvider } from "../hooks";
 import { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
 
 export default function Layout() {
     const [loaded, setLoaded] = useState<boolean>(false);
