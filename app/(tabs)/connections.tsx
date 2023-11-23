@@ -41,7 +41,7 @@ export default function Connections() {
 
     return (
         <View>
-            {data?.emailConnections.map((connection, i) => (
+            {data!.emailConnections.map((connection, i) => (
                 <View key={i}>
                     <Button title={connection.email} onPress={() => Linking.openURL(`mailto:${connection.email}`)} />
                     <Text>{new Date(connection.connectedAt * 1000).toDateString()}</Text>
