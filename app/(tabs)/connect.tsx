@@ -1,8 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
-import { Text, View } from "react-native";
+import { Button, Platform, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useCache } from "../../hooks/useCache";
 import { useEffect, useState } from "react";
+import * as ClipBoard from "expo-clipboard";
 
 interface Data {
     createInvite: {
@@ -41,5 +42,21 @@ export default function Connect() {
         } else setInvite(value);
     }, [value]);
 
-    return <View>{profileUrl && <QRCode value={profileUrl} />}</View>;
+    return (
+        <View>
+            {profileUrl && (
+                <>
+                    <QRCode value={profileUrl} />
+                    <Text>Code: {invite!}</Text>
+                    <Button
+                        title="Copy Link"
+                        onPress={async () => {
+                            if (Platform.OS === "web") navigator.clipboard.writeText(profileUrl);
+                            else await ClipBoard.setUrlAsync(profileUrl);
+                        }}
+                    />
+                </>
+            )}
+        </View>
+    );
 }

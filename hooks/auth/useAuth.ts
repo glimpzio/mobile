@@ -69,13 +69,21 @@ export function useAuth(protect: boolean) {
 
     useEffect(() => {
         if (Platform.OS === "web") {
-            const rawField = localStorage.getItem(KEY);
-            if (rawField) setAuthData(JSON.parse(rawField));
-            else setAuthData(null);
+            const item = localStorage.getItem(KEY);
+            if (item) {
+                const parsedAuthData: AuthData = JSON.parse(item);
+
+                if (Math.floor(Date.now() / 1000) <= parsedAuthData.expiresAt) setAuthData(parsedAuthData);
+                else setAuthData(null);
+            } else setAuthData(null);
         } else {
             SecureStore.getItemAsync(KEY).then((item) => {
-                if (item) setAuthData(JSON.parse(item));
-                else setAuthData(null);
+                if (item) {
+                    const parsedAuthData: AuthData = JSON.parse(item);
+
+                    if (Math.floor(Date.now() / 1000) <= parsedAuthData.expiresAt) setAuthData(parsedAuthData);
+                    else setAuthData(null);
+                } else setAuthData(null);
             });
         }
     }, [setAuthData]);
