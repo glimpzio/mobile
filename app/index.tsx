@@ -1,13 +1,12 @@
-import { Redirect } from "expo-router";
 import { useEffect } from "react";
-import { useAuth } from "../hooks";
+import { Text, View } from "react-native";
 
 export default function Index() {
-    const { completeAuth } = useAuth(false);
+    useEffect(() => {}, []);
 
-    useEffect(() => {
-        completeAuth();
-    }, []);
-
-    return <Redirect href="/connect" />;
+    return (
+        <View>
+            <Text>Hello World</Text>
+        </View>
+    );
 }

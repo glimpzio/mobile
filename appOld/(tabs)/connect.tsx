@@ -1,11 +1,10 @@
 import { gql, useMutation } from "@apollo/client";
-import { Platform, StyleSheet } from "react-native";
+import { Button, Platform, StyleSheet, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { useCache } from "../../hooks/useCache";
 import { useEffect, useState } from "react";
 import * as ClipBoard from "expo-clipboard";
-import { Button, Container, Text } from "../../components";
-import { COLOR_NEUTRAL_300, COLOR_ZINC_950 } from "../../utils";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface Data {
     createInvite: {
@@ -48,55 +47,42 @@ export default function Connect() {
                 setValue(JSON.stringify(data));
             });
         } else setInvite(JSON.parse(value));
-    }, [value]);
+    }, [value, setInvite]);
 
     if (!profileUrl || !invite)
         return (
-            <Container direction="vertical-center" pad expand style={styles.background}>
-                <Text alignment="center" type="normal">
-                    Missing profile URL.
-                </Text>
-            </Container>
+            <View>
+                <Text>Missing profile URL.</Text>
+            </View>
         );
 
     return (
-        <Container direction="vertical-center" pad expand style={styles.background} scroll>
-            <Container
-                direction="horizontal-center"
-                pad
+        <ScrollView>
+            <View
                 onLayout={(event) => {
                     const { width, height } = event.nativeEvent.layout;
                     setContainerSize({ width, height });
                 }}
             >
-                <QRCode value={profileUrl} backgroundColor={styles.background.backgroundColor} color={COLOR_NEUTRAL_300} size={Math.max(containerSize.width, containerSize.height) * 0.9} />
-            </Container>
-            <Container direction="horizontal-center" pad>
-                <Text alignment="center" type="lg">
-                    {invite.createInvite.publicProfile.firstName}
-                </Text>
-            </Container>
-            <Container direction="horizontal-center" pad>
-                <Text alignment="center" type="normal">
-                    {invite.createInvite.id}
-                </Text>
-            </Container>
-            <Container direction="none">
+                <QRCode value={profileUrl} size={Math.max(containerSize.width, containerSize.height) * 0.9} />
+            </View>
+            <View>
+                <Text>{invite.createInvite.publicProfile.firstName}</Text>
+            </View>
+            <View>
+                <View>{invite.createInvite.id}</View>
+            </View>
+            <View>
                 <Button
-                    color="sky"
                     title="Copy Invite Link"
                     onPress={async () => {
                         if (Platform.OS === "web") navigator.clipboard.writeText(profileUrl);
                         else await ClipBoard.setUrlAsync(profileUrl);
                     }}
                 />
-            </Container>
-        </Container>
+            </View>
+        </ScrollView>
     );
 }
 
-const styles = StyleSheet.create({
-    background: {
-        backgroundColor: COLOR_ZINC_950,
-    },
-});
+const styles = StyleSheet.create({});

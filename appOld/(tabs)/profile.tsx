@@ -1,7 +1,5 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Container, Text } from "../../components";
-import { COLOR_ZINC_950 } from "../../utils";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 interface Data {
     user: {
@@ -83,33 +81,23 @@ export default function Profile() {
 
     if (loading)
         return (
-            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
-                <Text alignment="center" type="normal">
-                    Loading...
-                </Text>
-            </Container>
+            <View>
+                <Text>Loading...</Text>
+            </View>
         );
 
     if (error)
         return (
-            <Container direction="vertical-center" pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
-                <Text alignment="center" type="normal">
-                    Failed to fetch data.
-                </Text>
-            </Container>
+            <View>
+                <Text>Failed to fetch data.</Text>
+            </View>
         );
 
     return (
-        <Container direction="vertical-start" scroll pad expand style={{ backgroundColor: COLOR_ZINC_950 }}>
-            <Text type="normal" alignment="center">
-                {JSON.stringify(data)}
-            </Text>
-        </Container>
+        <View>
+            <Text>{JSON.stringify(data)}</Text>
+        </View>
     );
 }
 
-const styles = StyleSheet.create({
-    background: {
-        backgroundColor: COLOR_ZINC_950,
-    },
-});
+const styles = StyleSheet.create({});

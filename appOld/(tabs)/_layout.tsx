@@ -2,8 +2,7 @@ import { Tabs } from "expo-router";
 import { useAuth } from "../../hooks";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { StyleSheet } from "react-native";
-import { COLOR_SKY_500, COLOR_WHITE, COLOR_ZINC_800, COLOR_ZINC_900, PADDING_HALF } from "../../utils";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabLayout() {
@@ -34,7 +33,17 @@ export default function TabLayout() {
 
     return (
         <ApolloProvider client={client}>
-            <Tabs screenOptions={{ headerShown: false, tabBarStyle: styles.tabBar, tabBarInactiveTintColor: styles.tabBarTintInactive.color, tabBarActiveTintColor: styles.tabBarTintActive.color }}>
+            <Tabs
+                screenOptions={{
+                    header: ({}) => (
+                        <SafeAreaView>
+                            <View>
+                                <Text>Hello World</Text>
+                            </View>
+                        </SafeAreaView>
+                    ),
+                }}
+            >
                 <Tabs.Screen name="connect" options={{ tabBarLabel: "Connect", tabBarIcon: ({ color, size }) => <Ionicons name="link" size={size} color={color} /> }} />
                 <Tabs.Screen name="connections" options={{ tabBarLabel: "Connections", tabBarIcon: ({ color, size }) => <Ionicons name="list" size={size} color={color} /> }} />
                 <Tabs.Screen name="profile" options={{ tabBarLabel: "Profile", tabBarIcon: ({ color, size }) => <Ionicons name="headset" size={size} color={color} /> }} />
@@ -43,16 +52,4 @@ export default function TabLayout() {
     );
 }
 
-const styles = StyleSheet.create({
-    tabBar: {
-        backgroundColor: COLOR_ZINC_900,
-        borderTopColor: COLOR_ZINC_800,
-        paddingBottom: PADDING_HALF,
-    },
-    tabBarTintInactive: {
-        color: COLOR_WHITE,
-    },
-    tabBarTintActive: {
-        color: COLOR_SKY_500,
-    },
-});
+const styles = StyleSheet.create({});

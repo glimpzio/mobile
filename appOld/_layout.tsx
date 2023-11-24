@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { AuthProvider } from "../hooks";
 import { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { BACKGROUND_DARK, BACKGROUND_LIGHT, PADDING_FULL, TEXT_BOLD_MD, TEXT_DARK_3, TEXT_SIZE_MD } from "../utils";
@@ -29,6 +30,9 @@ export default function Layout() {
                 }}
             >
                 <Stack.Screen name="index" />
+                <Stack.Screen name="auth/signin" options={{ presentation: "modal", title: "Sign In" }} />
+                <Stack.Screen name="auth/create" options={{ presentation: "modal" }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             </Stack>
         </BottomSheetModalProvider>
     );
